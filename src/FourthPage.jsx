@@ -2,42 +2,28 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Toolbar, Page, Button, BackButton} from 'react-onsenui';
 
-import ThirdPage from './ThirdPage';
+import FifthPage from './FifthPage';
 
-export default class SecondPage extends React.Component {
+export default class ForthPage extends React.Component {
   pushPage() {
-    localStorage.setItem("words", {});
-    this.props.navigator.pushPage({component: ThirdPage});
+    localStorage.setItem("dontKnowWords", {});
+    this.props.navigator.pushPage({component: FifthPage});
   }
 
   popPage() {
     this.props.navigator.popPage();
   }
 
-  N5FromApiAsync() {
-    return fetch('json/N5.json')
-    .then((response) => response.json())
-    .then((responseJson) => {
-      return responseJson;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-  }
-
   renderToolbar() {
     return (
       <Toolbar>
         <div className="left"><BackButton>Back</BackButton></div>
-        <div className="center">Second Page</div>
+        <div className="center">Fourth page</div>
       </Toolbar>
     );
   }
 
   render() {
-     console.log(localStorage.getItem("selectedLevel"));
-     let wordList = this.N5FromApiAsync();
-     console.log(wordList);
      return (
       <Page renderToolbar={this.renderToolbar}>
         <p style={{textAlign: 'center'}}>
