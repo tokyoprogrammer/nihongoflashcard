@@ -7,8 +7,8 @@ import SecondPage from './SecondPage';
 export default class MainPage extends React.Component {
   
   pushPage(level) {
-    console.log(SecondPage);
-    this.props.navigator.pushPage({component: SecondPage, options: {data: level}});
+    localStorage.setItem("selectedLevel", level);
+    this.props.navigator.pushPage({component: SecondPage});
   }
 
   renderToolbar() {

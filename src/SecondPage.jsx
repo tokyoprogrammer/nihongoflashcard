@@ -15,7 +15,7 @@ export default class SecondPage extends React.Component {
     return fetch('json/N5.json')
     .then((response) => response.json())
     .then((responseJson) => {
-      return responseJson.movies;
+      return responseJson;
     })
     .catch((error) => {
       console.error(error);
@@ -32,7 +32,9 @@ export default class SecondPage extends React.Component {
   }
 
   render() {
-     console.log(this);
+     console.log(localStorage.getItem("selectedLevel"));
+     let wordList = this.N5FromApiAsync();
+     console.log(wordList);
      return (
       <Page renderToolbar={this.renderToolbar}>
         <p style={{textAlign: 'center'}}>
