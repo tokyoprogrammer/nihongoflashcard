@@ -5,6 +5,14 @@ import {Toolbar, Page, Button, BackButton} from 'react-onsenui';
 import FifthPage from './FifthPage';
 
 export default class ForthPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      wordList: JSON.parse(localStorage.getItem("words"))
+    };
+    console.log(this.state.wordList);
+  }
+
   pushPage() {
     localStorage.setItem("dontKnowWords", {});
     this.props.navigator.pushPage({component: FifthPage});
@@ -18,7 +26,7 @@ export default class ForthPage extends React.Component {
     return (
       <Toolbar>
         <div className="left"><BackButton>Back</BackButton></div>
-        <div className="center">Fourth page</div>
+        <div className="center">Test page</div>
       </Toolbar>
     );
   }

@@ -5,8 +5,18 @@ import {Toolbar, Page, Button, BackButton} from 'react-onsenui';
 import ThirdPage from './ThirdPage';
 
 export default class SecondPage extends React.Component {
-  pushPage() {
-    localStorage.setItem("words", {});
+  constructor(props) {
+    super(props);
+    this.state = {
+      wordList: [],
+      selectedLevel: localStorage.getItem("selectedLevel")
+    };
+    this.N5FromApiAsync(this.state.selectedLevel);
+  }
+
+  pushPage(wordList, from, to) {
+    let sliced = wordList.slice(from, to);
+    localStorage.setItem("words", JSON.stringify(sliced));
     this.props.navigator.pushPage({component: ThirdPage});
   }
 
@@ -14,10 +24,11 @@ export default class SecondPage extends React.Component {
     this.props.navigator.popPage();
   }
 
-  N5FromApiAsync() {
-    return fetch('json/N5.json')
+  N5FromApiAsync(level) {
+    return fetch('json/N' + level + '.json')
     .then((response) => response.json())
     .then((responseJson) => {
+      this.setState({wordList: responseJson});
       return responseJson;
     })
     .catch((error) => {
@@ -35,13 +46,14 @@ export default class SecondPage extends React.Component {
   }
 
   render() {
-     console.log(localStorage.getItem("selectedLevel"));
-     let wordList = this.N5FromApiAsync();
-     console.log(wordList);
+     var wordList = [];
      return (
       <Page renderToolbar={this.renderToolbar}>
+        <div style={{textAlign: 'center'}}>
+          <h3>{this.state.selectedLevel}</h3>
+        </div>
         <p style={{textAlign: 'center'}}>
-          <Button onClick={this.pushPage.bind(this)}>Push page</Button>
+          <Button onClick={this.pushPage.bind(this, this.state.wordList, 0, 9)}>Push page</Button>
           <Button onClick={this.popPage.bind(this)}>Pop page</Button>
         </p>
       </Page>
