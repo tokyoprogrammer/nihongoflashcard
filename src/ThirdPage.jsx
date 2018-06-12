@@ -106,7 +106,7 @@ export default class ThirdPage extends React.Component {
         <Carousel onPostChange={this.handleChange.bind(this)} style={{height: '70%'}} 
           index={this.state.counter} swipeable autoScroll overscrollable>
           {this.state.wordList.map((item, index) => (
-            <CarouselItem key={index} style={{backgroundColor: this.state.bgColor[index % 4]}}>
+            <CarouselItem key={index} style={{backgroundColor: this.state.bgColor[index % this.state.wordList.length]}}>
               <div style={{textAlign: 'center', marginTop: '50%'}}>
                 <h3>{item.yomigana}</h3>
                 <h1>{item.word}</h1>
