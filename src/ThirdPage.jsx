@@ -96,13 +96,9 @@ export default class ThirdPage extends React.Component {
          <Icon icon='md-chevron-right' size={iconSize} />
        </Button>);
 
-    var imagepath = 'img/' + this.state.wordList[0].Level + '.png';
 
     return (
       <Page renderToolbar={this.renderToolbar}>
-        <div style={{textAlign: 'center'}}>
-        <img src={imagepath} style={{width: '90%'}}/>
-        </div>
         <Carousel onPostChange={this.handleChange.bind(this)} style={{height: '70%'}} 
           index={this.state.counter} swipeable autoScroll overscrollable>
           {this.state.wordList.map((item, index) => (
