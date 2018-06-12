@@ -47,11 +47,12 @@ export default class SecondPage extends React.Component {
 
   render() {
      var wordList = [];
+     var imagepath = 'img/N' + this.state.selectedLevel + '.png';
      return (
       <Page renderToolbar={this.renderToolbar}>
         <div style={{textAlign: 'center'}}>
-          <h3>{this.state.selectedLevel}</h3>
-        </div>
+	  <img src={imagepath} style={{width: '90%'}}/>	
+	</div>
         <p style={{textAlign: 'center'}}>
           <Button onClick={this.pushPage.bind(this, this.state.wordList, 0, 9)}>Push page</Button>
           <Button onClick={this.popPage.bind(this)}>Pop page</Button>
