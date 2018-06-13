@@ -54,10 +54,10 @@ export default class ThirdPage extends React.Component {
   }
 
   render() {
-    var testButton = this.state.counter >= this.state.wordList.length - 1 ? 
-      (<Button onClick={this.pushPage.bind(this)}>Go Test</Button>) :
+    let testButton = this.state.counter >= this.state.wordList.length - 1 ? 
+      (<Button onClick={this.pushPage.bind(this)}>Examination</Button>) :
       null;
-    var carouselCursor = (<div style={{
+    let carouselCursor = (<div style={{
           textAlign: 'center',
           fontSize: '20px',
           position: 'absolute',
@@ -71,16 +71,16 @@ export default class ThirdPage extends React.Component {
             </span>
           ))}
         </div>);
-    var buttonStyle = {
+    let buttonStyle = {
       width: '40px'
     };
 
-    var iconSize = {
+    let iconSize = {
       default: 30,
       material: 28
     };
 
-    var backButton = this.state.counter > 0 ? 
+    let backButton = this.state.counter > 0 ? 
       (<Button modifier='quiet' onClick={this.goBack.bind(this)} style={buttonStyle}>
          <Icon icon='md-chevron-left' size={iconSize} />
        </Button>) : 
@@ -88,7 +88,7 @@ export default class ThirdPage extends React.Component {
          <Icon icon='md-chevron-left' size={iconSize} />
        </Button>);
 
-    var nextButton = this.state.counter < this.state.wordList.length - 1 ?
+    let nextButton = this.state.counter < this.state.wordList.length - 1 ?
       (<Button modifier='quiet' onClick={this.goNext.bind(this)} style={buttonStyle}>
          <Icon icon='md-chevron-right' size={iconSize} />
        </Button>) : 

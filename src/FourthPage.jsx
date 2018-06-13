@@ -29,7 +29,7 @@ export default class ForthPage extends React.Component {
             exampleList.push("(" + word.yomigana + ") " + word.meaning);
           }
           else {
-            var meaningRand = {};
+            let meaningRand = {};
             let yomiganaRand = wordList[this.getRandomInt(wordList.length)];
             /* make random number for meaning example */
             for(;;) {
@@ -64,7 +64,7 @@ export default class ForthPage extends React.Component {
             exampleList.push("(" + word.yomigana +") " + word.word);
           }
           else {
-            var wordRand = {};
+            let wordRand = {};
             let yomiganaRand = wordList[this.getRandomInt(wordList.length)];
             /* make random number for meaning example */
             for(;;) {
@@ -90,6 +90,7 @@ export default class ForthPage extends React.Component {
     }
 
     this.state = {
+      wordList: wordList,
       counter: 0,
       questionList: preparedArray
     };
@@ -100,7 +101,14 @@ export default class ForthPage extends React.Component {
   }
 
   pushPage() {
-    localStorage.setItem("dontKnowWords", {});
+    let dontKnowWords = [];
+    for(let i = 0; i < this.state.questionList.length; i++) {
+      let item = this.state.questionList[i];
+      if(item.selectedVal != item.answerNum) {
+        dontKnowWords.push(this.state.wordList[i]);
+      }
+    }
+    localStorage.setItem("dontKnowWords", JSON.stringify(dontKnowWords));
     this.props.navigator.pushPage({component: FifthPage});
   }
 
@@ -128,13 +136,12 @@ export default class ForthPage extends React.Component {
     return (
       <Toolbar>
         <div className="left"><BackButton>Back</BackButton></div>
-        <div className="center">Test page</div>
+        <div className="center">Exam page</div>
       </Toolbar>
     );
   }
 
   handleRadioChange(row, index) {
-    console.log(index);
     let questionList = this.state.questionList;
     let question = questionList[this.state.counter];
     questionList[this.state.counter] = {
@@ -164,10 +171,11 @@ export default class ForthPage extends React.Component {
   }
 
   render() {
-    var nextPageButton = this.state.counter >= this.state.questionList.length - 1 ? 
+    let nextPageButton = this.state.counter >= this.state.questionList.length - 1 ? 
       (<Button onClick={this.pushPage.bind(this)} style={{margin: '6px'}}>Test Done</Button>) :
       null;
-    var carouselCursor = (<div style={{
+
+    let carouselCursor = (<div style={{
           textAlign: 'center',
           fontSize: '20px',
           position: 'absolute',
@@ -181,16 +189,17 @@ export default class ForthPage extends React.Component {
             </span>
           ))}
         </div>);
-    var buttonStyle = {
+
+    let buttonStyle = {
       width: '40px'
     };
 
-    var iconSize = {
+    let iconSize = {
       default: 30,
       material: 28
     };
 
-    var backButton = this.state.counter > 0 ? 
+    let backButton = this.state.counter > 0 ? 
       (<Button modifier='quiet' onClick={this.goBack.bind(this)} style={buttonStyle}>
          <Icon icon='md-chevron-left' size={iconSize} />
        </Button>) : 
@@ -198,13 +207,15 @@ export default class ForthPage extends React.Component {
          <Icon icon='md-chevron-left' size={iconSize} />
        </Button>);
 
-    var nextButton = this.state.counter < this.state.questionList.length - 1 ?
+    let nextButton = this.state.counter < this.state.questionList.length - 1 ?
       (<Button modifier='quiet' onClick={this.goNext.bind(this)} style={buttonStyle}>
          <Icon icon='md-chevron-right' size={iconSize} />
        </Button>) : 
       (<Button modifier='quiet' disabled='true' onClick={this.goNext.bind(this)} style={buttonStyle}>
          <Icon icon='md-chevron-right' size={iconSize} />
        </Button>);
+
+    let questionString = "Choose a correct combination";
 
     return (
       <Page renderToolbar={this.renderToolbar}>
@@ -213,7 +224,7 @@ export default class ForthPage extends React.Component {
           {this.state.questionList.map((item, index) => (
             <CarouselItem key={index}>
               <div style={{textAlign: 'center', marginTop: '30%'}}>
-                <h3>Choose correct combination</h3>
+                <h3>{questionString}</h3>
                 <h1>[ {item.question} ]</h1>
                 <List dataSource = {item.exampleList}
                   renderRow={this.renderRadioRow.bind(this)} />

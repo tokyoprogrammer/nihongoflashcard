@@ -16,6 +16,7 @@ export default class SecondPage extends React.Component {
 
   pushPage(wordList, from, to) {
     let sliced = wordList.slice(from, to);
+    console.log(sliced);
     localStorage.setItem("words", JSON.stringify(sliced));
     this.props.navigator.pushPage({component: ThirdPage});
   }
@@ -54,7 +55,7 @@ export default class SecondPage extends React.Component {
 	  <img src={imagepath} style={{width: '90%'}}/>	
 	</div>
         <p style={{textAlign: 'center'}}>
-          <Button onClick={this.pushPage.bind(this, this.state.wordList, 0, 9)}>Push page</Button>
+          <Button onClick={this.pushPage.bind(this, this.state.wordList, 0, 10)}>Push page</Button>
           <Button onClick={this.popPage.bind(this)}>Pop page</Button>
         </p>
       </Page>
