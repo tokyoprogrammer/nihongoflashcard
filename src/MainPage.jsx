@@ -5,7 +5,10 @@ import {Toolbar, Page, Button} from 'react-onsenui';
 import SecondPage from './SecondPage';
 
 export default class MainPage extends React.Component {
-  
+  constructor(props) {
+    super(props);
+  }
+
   pushPage(level) {
     localStorage.setItem("selectedLevel", level);
     this.props.navigator.pushPage({component: SecondPage});

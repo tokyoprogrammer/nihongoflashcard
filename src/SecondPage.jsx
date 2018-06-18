@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {Toolbar, Page, Button, BackButton} from 'react-onsenui';
 
 import ThirdPage from './ThirdPage';
+import App from './App';
 
 export default class SecondPage extends React.Component {
   constructor(props) {
@@ -22,7 +23,12 @@ export default class SecondPage extends React.Component {
   }
 
   popPage() {
-    this.props.navigator.popPage();
+    /* The reason of resetPage is when the second page has been loaded by Fifth page, 
+     * props.navigator will not have a item in a stack to pop out.
+     * Which means that we cannot call popPage properly because the stack does not contains items to pop. 
+     * But actually popPage of this page is quite deterministic 
+     * as the second page does not need a stack to go back to the first page (main page) */
+    this.props.navigator.resetPage({component: App});
   }
 
   N5FromApiAsync(level) {
@@ -40,7 +46,7 @@ export default class SecondPage extends React.Component {
   renderToolbar() {
     return (
       <Toolbar>
-        <div className="left"><BackButton>Back</BackButton></div>
+        <div className="left"><BackButton onClick={this.popPage.bind(this)}>Back</BackButton></div>
         <div className="center">Second Page</div>
       </Toolbar>
     );
@@ -50,7 +56,7 @@ export default class SecondPage extends React.Component {
      var wordList = [];
      var imagepath = 'img/N' + this.state.selectedLevel + '.png';
      return (
-      <Page renderToolbar={this.renderToolbar}>
+      <Page renderToolbar={this.renderToolbar.bind(this)}>
         <div style={{textAlign: 'center'}}>
 	  <img src={imagepath} style={{width: '90%'}}/>	
 	</div>
