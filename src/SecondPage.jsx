@@ -43,6 +43,22 @@ export default class SecondPage extends React.Component {
   }
 
   N5FromApiAsync(level) {
+    var this_ = this;
+    new Promise(function(resolve, reject) {
+      var xhr = new XMLHttpRequest;
+      xhr.onload = function() {
+        this_.setState({wordList: JSON.parse(xhr.responseText)});
+        this_.countData();
+
+        resolve(new Response(xhr.responseText, {status: xhr.status}));
+      }
+      xhr.onerror = function() {
+        reject(new TypeError('Local request failed'));
+      }
+      xhr.open('GET', 'json/N' + level + '.json');
+      xhr.send(null);
+    });
+/*
     return fetch('json/N' + level + '.json')
     .then((response) => response.json())
     .then((responseJson) => {
@@ -53,6 +69,7 @@ export default class SecondPage extends React.Component {
     .catch((error) => {
       console.error(error);
     });
+*/
   }
 
   renderToolbar() {
