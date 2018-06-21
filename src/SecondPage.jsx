@@ -10,9 +10,13 @@ export default class SecondPage extends React.Component {
     super(props);
     this.state = {
       wordList: [],
-      selectedLevel: localStorage.getItem("selectedLevel")
+      selectedLevel: localStorage.getItem("selectedLevel"),
+      counter: 0
     };
+
+    this.countData = this.countData.bind(this);
     this.N5FromApiAsync(this.state.selectedLevel);
+    this.handleDecrease = this.handleDecrease.bind(this);
   }
 
   pushPage(wordList, from, to) {
@@ -23,6 +27,7 @@ export default class SecondPage extends React.Component {
   }
 
   popPage() {
+    console.log(this);
     /* The reason of resetPage is when the second page has been loaded by Fifth page, 
      * props.navigator will not have a item in a stack to pop out.
      * Which means that we cannot call popPage properly because the stack does not contains items to pop. 
@@ -31,11 +36,18 @@ export default class SecondPage extends React.Component {
     this.props.navigator.resetPage({component: App});
   }
 
+  countData() {
+    let buttonNum = (this.state.wordList.length / 10);
+    this.setState({counter: buttonNum}); 
+    console.log('counter : ' + this.state.counter);
+  }
+
   N5FromApiAsync(level) {
     return fetch('json/N' + level + '.json')
     .then((response) => response.json())
     .then((responseJson) => {
       this.setState({wordList: responseJson});
+      this.countData();
       return responseJson;
     })
     .catch((error) => {
@@ -51,20 +63,41 @@ export default class SecondPage extends React.Component {
       </Toolbar>
     );
   }
+  
+  handleDecrease(){
+    this.setState({
+      counter: this.state.counter - 1
+    });
+  }
 
   render() {
-     var wordList = [];
-     var imagepath = 'img/N' + this.state.selectedLevel + '.png';
-     return (
+    let wordList = [];
+    let imagepath = 'img/N' + this.state.selectedLevel + '.png';
+    let cnt = this.state.counter;
+    let rows = [];
+    let buttonStyle = {
+      width : '60px',
+      margin: '1%'
+    };
+    let iconSize = {
+      default : 30,
+      material: 28
+    };
+
+    let buttons = [];
+    for (let i = 0; i < cnt; i++) {
+      let start = i * 10;
+      let end = start + 10;
+      buttons.push(<Button style={buttonStyle} onClick={this.pushPage.bind(this, this.state.wordList, start, end)}>{i + 1}</Button>);
+    }
+
+    return (
       <Page renderToolbar={this.renderToolbar.bind(this)}>
         <div style={{textAlign: 'center'}}>
-	  <img src={imagepath} style={{width: '90%'}}/>	
-	</div>
-        <p style={{textAlign: 'center'}}>
-          <Button onClick={this.pushPage.bind(this, this.state.wordList, 0, 10)}>Push page</Button>
-          <Button onClick={this.popPage.bind(this)}>Pop page</Button>
-        </p>
-      </Page>
+          <img src={imagepath} style={{width: '90%'}}/>	
+        </div>
+        <div style={{textAlign: 'center'}}>{buttons}</div>
+      </Page> 
     );
   }
 }
