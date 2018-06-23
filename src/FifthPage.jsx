@@ -9,13 +9,24 @@ export default class FifthPage extends React.Component {
     super(props);
 
     let pageList = [];
+    let entireWordList = JSON.parse(localStorage.getItem("words"));
     let wordList = JSON.parse(localStorage.getItem("dontKnowWords"));
     let message = wordList.length <= 0 ? "Perfect Score!!" : wordList.length <= 2 ? "Good Job!" : "Not Good..";
+    let score = (entireWordList.length - wordList.length) / entireWordList.length * 100;
     let result = {
       top_: "Examination Result",
-      mid_: (10 - wordList.length) + " / 10",
+      mid_: (entireWordList.length - wordList.length) + " / " + entireWordList.length,
       bottom_: message
     };
+
+    let selectedLevel = localStorage.getItem("selectedLevel");
+    let selectedClass = localStorage.getItem("selectedIndex");
+    /* This data was created in SecondPage. */
+    let progressUntil = JSON.parse(localStorage.getItem("progress" + selectedLevel));
+
+    /* Update array and store it again. */
+    progressUntil[selectedClass] = score;
+    localStorage.setItem("progress" + selectedLevel, JSON.stringify(progressUntil));
    
     pageList.push(result);
 
@@ -65,7 +76,7 @@ export default class FifthPage extends React.Component {
     return (
       <Toolbar>
         <div className="left"><BackButton>Back</BackButton></div>
-        <div className="center">Fifth page</div>
+        <div className="center">Review Page</div>
       </Toolbar>
     );
   }
