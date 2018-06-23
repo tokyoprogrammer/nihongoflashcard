@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Toolbar, Page, Button, BackButton, Icon, Carousel, CarouselItem} from 'react-onsenui';
 
-import SecondPage from './SecondPage'
+import App from './App'
 
 export default class FifthPage extends React.Component {
   constructor(props) {
@@ -57,7 +57,8 @@ export default class FifthPage extends React.Component {
 
   loadPage() {
     /* reset page will remove all stacks and reset page with component */
-    this.props.navigator.resetPage({component: SecondPage});
+    localStorage.setItem("jumpToSecond", 1);
+    this.props.navigator.resetPage({component: App});
   }
 
   renderToolbar() {

@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import {Toolbar, Page, Button, BackButton} from 'react-onsenui';
 
 import ThirdPage from './ThirdPage';
-import App from './App';
 
 export default class SecondPage extends React.Component {
   constructor(props) {
@@ -28,12 +27,8 @@ export default class SecondPage extends React.Component {
 
   popPage() {
     console.log(this);
-    /* The reason of resetPage is when the second page has been loaded by Fifth page, 
-     * props.navigator will not have a item in a stack to pop out.
-     * Which means that we cannot call popPage properly because the stack does not contains items to pop. 
-     * But actually popPage of this page is quite deterministic 
-     * as the second page does not need a stack to go back to the first page (main page) */
-    this.props.navigator.resetPage({component: App});
+    localStorage.setItem("jumpToSecond", 0);
+    this.props.navigator.popPage();
   }
 
   countData() {

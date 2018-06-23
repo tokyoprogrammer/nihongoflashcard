@@ -8,6 +8,11 @@ import SecondPage from './SecondPage';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
+    console.log("called");
+    this.state = {
+      jumpToSecond : localStorage.getItem("jumpToSecond")
+    };
+
   }
 
   renderPage(route, navigator) {
@@ -18,8 +23,14 @@ export default class App extends React.Component {
   }
 
   render() {
-    return (
-      <Navigator initialRoute={{component: MainPage}} renderPage={this.renderPage} />
-    );
+    if(this.state.jumpToSecond == '0') {
+      return (
+        <Navigator initialRoute={{component: MainPage}} renderPage={this.renderPage} />
+      );
+    } else {
+       return (
+        <Navigator initialRouteStack={[{component: MainPage}, {component: SecondPage}]} renderPage={this.renderPage} />
+      );
+    }
   }
 }
