@@ -8,9 +8,13 @@ import SecondPage from './SecondPage';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    console.log("called");
+    let jumpToSecond = localStorage.getItem("jumpToSecond");
+    if(jumpToSecond == null) {
+      localStorage.setItem("jumpToSecond", "0");
+      jumpToSecond = "0";
+    }
     this.state = {
-      jumpToSecond : localStorage.getItem("jumpToSecond")
+      jumpToSecond : jumpToSecond
     };
 
   }
@@ -23,7 +27,7 @@ export default class App extends React.Component {
   }
 
   render() {
-    if(this.state.jumpToSecond == '0') {
+    if(this.state.jumpToSecond == '0' || this.state.jumpToSecond == null) {
       return (
         <Navigator initialRoute={{component: MainPage}} renderPage={this.renderPage} />
       );
