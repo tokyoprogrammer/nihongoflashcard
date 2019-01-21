@@ -56,7 +56,7 @@ jobs:
             git config --global user.name $GH_NAME
             git clone $DEPLOY_GIT_URL out
             ls -al out
-            cd out/plankApp
+            cd out/nihongo
             cp -rf ../../www/* .
             git add -A
             git commit -m "Automated deployment to GitHub Pages" --allow-empty
